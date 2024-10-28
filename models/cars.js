@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Cars.belongsTo(models.Users, {foreignKey: 'createdBy', as: 'user'})
-      Cars.belongsTo(models.Users, {foreignKey: 'updatedBy', as: 'user'})
-      Cars.belongsTo(models.Users, {foreignKey: 'deletedBy', as: 'user'})
+      Cars.belongsTo(models.Users, {foreignKey: 'createdBy', as: 'userCreate'})
+      Cars.belongsTo(models.Users, {foreignKey: 'updatedBy', as: 'userUpdate'})
+      Cars.belongsTo(models.Users, {foreignKey: 'deletedBy', as: 'userDelete'})
     }
   }
   Cars.init({

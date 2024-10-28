@@ -1,13 +1,12 @@
 const router = require("express").Router();
 
+
 const Auth = require("./authRoute");
 const User = require("./userRoute");
 const Car = require("./carRoute");
 
-const versionRoute = "/api/v1";
-
-router.use(`${versionRoute}/auth`, Auth);
-router.use(`${versionRoute}/users`, User);
-router.use(`${versionRoute}/cars`, Car);
+router.use("/api/v1/auth", Auth);
+router.use("/api/v1/users", User);
+router.use("/api/v1/cars", Car);
 
 module.exports = router

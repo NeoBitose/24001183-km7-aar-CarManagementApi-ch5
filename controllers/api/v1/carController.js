@@ -21,6 +21,7 @@ async function getAllCars(req, res) {
                     attributes: ['id', 'firstName', 'lastName', 'role'],
                 }
             ],
+            attributes: ['id', 'name', 'tahun', 'noPlat', 'harga', 'fotoMobil', 'createdAt', 'updatedAt', 'deletedAt']
         });
 
         if (cars.length === 0) {
@@ -90,6 +91,7 @@ async function getCarbyId(req, res) {
                     attributes: ['id', 'firstName', 'lastName', 'role'],
                 }
             ],
+            attributes: ['id', 'name', 'tahun', 'noPlat', 'harga', 'fotoMobil', 'createdAt', 'updatedAt', 'deletedAt']
         });
         if (!car) {
             return res.status(404).json({

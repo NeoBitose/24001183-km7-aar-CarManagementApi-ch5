@@ -22,10 +22,37 @@ const register = async (req, res) => {
         const { email, password, firstName, lastName, phone } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        const existingUser = await Users.findOne({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({
+                status: "Failed",
+                message: "Email address already in use!",
+                isSuccess: false,
+                data: null,
+            });
+        }
+
         if (!validator.isEmail(email)) {
             return res.status(400).json({
                 status: "Failed",
                 message: 'Email is not valid',
+                isSuccess: false,
+                data: null,
+            });
+        }
+
+        if (!validator.isLength(password, { min: 8 })) {
+            return res.status(400).json({
+                status: "Failed",
+                message: 'Password at least 8 char',
+                isSuccess: false,
+                data: null,
+            });
+        }
+        else if (!validator.isLength(password, { max: 100 })) {
+            return res.status(400).json({
+                status: "Failed",
+                message: 'Password max 100 char',
                 isSuccess: false,
                 data: null,
             });

@@ -1,9 +1,27 @@
-const { Cars } = require("../../../models");
+const { Cars, Users } = require("../../../models");
 const imagekit = require("../../../lib/imagekit");
 
 async function getAllCars(req, res) {
     try {
-        const cars = await Cars.findAll();
+        const cars = await Cars.findAll({
+            include: [
+                {
+                    model: Users,
+                    as: 'userCreate',
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                },
+                {
+                    model: Users,
+                    as: 'userUpdate',
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                },
+                {
+                    model: Users,
+                    as: 'userDelete',
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                }
+            ],
+        });
 
         if (cars.length === 0) {
             return res.status(404).json({
@@ -42,7 +60,7 @@ async function getAllCars(req, res) {
         } else {
             return res.status(500).json({
                 status: "Failed",
-                message: "An unexpected error occurred",
+                message: error.message,
                 isSuccess: false,
                 data: null,
             });
@@ -53,7 +71,26 @@ async function getAllCars(req, res) {
 async function getCarbyId(req, res) {
     try {
         const id = req.params.id;
-        const car = await Cars.findByPk(id);
+        const car = await Cars.findOne({
+            where: { id },
+            include: [
+                {
+                    model: Users,
+                    as: 'userCreate',
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                },
+                {
+                    model: Users,
+                    as: 'userUpdate',
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                },
+                {
+                    model: Users,
+                    as: 'userDelete',
+                    attributes: ['id', 'firstName', 'lastName', 'role'],
+                }
+            ],
+        });
         if (!car) {
             return res.status(404).json({
                 status: "Failed",
@@ -126,7 +163,7 @@ async function createCar(req, res) {
                     noPlat,
                     harga,
                     fotoMobil: uploadedImage.url,
-                    createdBy: 3
+                    createdBy: req.user.id
                 });
 
                 res.status(200).json({
@@ -146,6 +183,7 @@ async function createCar(req, res) {
                 tahun,
                 noPlat,
                 harga,
+                createdBy: req.user.id
             });
 
             res.status(200).json({
@@ -220,11 +258,11 @@ async function updateCar(req, res) {
                 });
             }
             detailCar.name = name,
-                detailCar.tahun = tahun,
-                detailCar.noPlat = noPlat,
-                detailCar.harga = harga,
-                detailCar.fotoMobil = uploadedImage.url
-            detailCar.updatedBy = 3
+            detailCar.tahun = tahun,
+            detailCar.noPlat = noPlat,
+            detailCar.harga = harga,
+            detailCar.fotoMobil = uploadedImage.url,
+            detailCar.updatedBy = req.user.id
 
             await detailCar.save();
 
@@ -239,7 +277,7 @@ async function updateCar(req, res) {
                         noPlat,
                         harga,
                         fotoMobil: uploadedImage.url,
-                        updatedBy: 3
+                        updatedBy: req.user.id
                     },
                 },
             });
@@ -249,7 +287,7 @@ async function updateCar(req, res) {
             detailCar.tahun = tahun;
             detailCar.noPlat = noPlat;
             detailCar.harga = harga;
-            detailCar.updatedBy = 3
+            detailCar.updatedBy = req.user.id
 
             await detailCar.save();
 
@@ -263,7 +301,7 @@ async function updateCar(req, res) {
                         tahun,
                         noPlat,
                         harga,
-                        updatedBy: 3
+                        updatedBy: req.user.id
                     },
                 },
             });
@@ -312,7 +350,7 @@ async function deleteCar(req, res) {
 
         const dateNow = Date.now();
         const dateParse = new Date(dateNow);
-        car.deletedBy = 3,
+        car.deletedBy = req.user.id,
         car.deletedAt = dateNow
 
         await car.save({ silent: true });
@@ -324,7 +362,7 @@ async function deleteCar(req, res) {
             data: {
                 car: {
                     id: car.id,
-                    deletedBy: 3,
+                    deletedBy: req.user.id,
                     deletedAt: dateParse.toString()
                 }
             },

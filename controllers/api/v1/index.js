@@ -1,11 +1,11 @@
-const authController = require("./authController");
-const userController = require("./userController");
-const systemController = require("./systemController");
-const carController = require("./carController");
+const AuthController = require("./authController");
+const UserController = require("./userController");
+const SystemController = require("./systemController");
+const CarController = require("./carController");
 
 module.exports = {
-  authController,
-  userController,
-  systemController,
-  carController,
+  AuthController,
+  UserController,
+  SystemController,
+  CarController,
 };

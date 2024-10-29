@@ -2,20 +2,15 @@ const bcrypt = require('bcryptjs');
 const { where } = require('sequelize');
 const validator = require("validator");
 const jwt = require("jsonwebtoken")
+require("dotenv").config();
 
 const { Users } = require("../../../models");
 
-const authorizedOnly = async (req, res, next) => {
-    if (!req.session.isAuthenticated) {
-        return res.status(400).json({
-            status: "Failed",
-            message: 'You not authencticated',
-            isSuccess: false,
-            data: null,
-        });
-    }
-    next();
-}
+const createToken = (payload) => {
+    return jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN || '1h',
+    });
+};
 
 const register = async (req, res) => {
     try {
@@ -109,7 +104,7 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const emailLowerCase = email.toLowerCase()
- 
+
         if (!validator.isEmail(emailLowerCase)) {
             return res.status(400).json({
                 status: "Failed",
@@ -152,16 +147,13 @@ const login = async (req, res) => {
         const isCorrectPass = await bcrypt.compare(password, hashedPassword)
 
         if (isCorrectPass) {
-            console.log([userDetail.createdAt, userDetail.createdAt, userDetail.password])
-
             const token = createToken({
                 id: userDetail.id,
                 email: email,
+                role: userDetail.role,
                 createdAt: userDetail.createdAt,
                 updatedAt: userDetail.updatedAt
             })
-
-            console.log(token)
 
             res.status(201).json({
                 status: "Success",
@@ -204,7 +196,8 @@ const login = async (req, res) => {
         } else {
             return res.status(500).json({
                 status: "Failed",
-                message: "An unexpected error occurred",
+                // message: "An unexpected error occurred",
+                message: error.message,
                 isSuccess: false,
                 data: null,
             });
@@ -221,6 +214,5 @@ const logout = async (req, res) => {
 module.exports = {
     register,
     login,
-    logout,
-    authorizedOnly
+    logout
 }

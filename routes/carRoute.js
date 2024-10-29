@@ -1,12 +1,12 @@
 const router = require("express").Router();
 
 const { CarController } = require("../controllers/api/v1");
-const { uploader } = require("../middlewares");
+const { uploader, authenticated, roles } = require("../middlewares");
 
-router.get("/", CarController.getAllCars);
+router.get("/", authenticated, CarController.getAllCars);
 router.get("/:id", CarController.getCarbyId);
-router.post("/", uploader.single("fotoMobil"), CarController.createCar);
-router.patch("/:id", uploader.single("fotoMobil"), CarController.updateCar);
-router.delete("/:id", CarController.deleteCar);
+router.post("/", authenticated, roles('superadmin', 'admin'), uploader.single("fotoMobil"), CarController.createCar);
+router.patch("/:id", authenticated, roles('superadmin', 'admin'), uploader.single("fotoMobil"), CarController.updateCar);
+router.delete("/:id", authenticated, roles('superadmin', 'admin'), CarController.deleteCar);
 
 module.exports = router;

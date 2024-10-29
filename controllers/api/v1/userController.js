@@ -58,7 +58,7 @@ async function getAllUsers(req, res) {
 async function getUserbyId(req, res) {
     try {
         const id = req.params.id;
-        const user = await Users.findByPk(id); // Atau bisa gunakan findOne({ where: { id } })
+        const user = await Users.findByPk(id);
         if (!user) {
             return res.status(404).json({
                 status: "Failed",

@@ -53,7 +53,7 @@ async function getAllCars(req, res) {
 async function getCarbyId(req, res) {
     try {
         const id = req.params.id;
-        const car = await Cars.findByPk(id); // Atau bisa gunakan findOne({ where: { id } })
+        const car = await Cars.findByPk(id);
         if (!car) {
             return res.status(404).json({
                 status: "Failed",

@@ -61,9 +61,6 @@ const register = async (req, res) => {
             phone,
         })
 
-        // req.session.isAuthenticated = true;
-        // req.session.user = { email, firstName, lastName, phone };
-
         res.status(201).json({
             status: "Success",
             message: "Register user successfully",

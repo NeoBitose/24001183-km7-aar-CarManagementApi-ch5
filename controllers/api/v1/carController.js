@@ -220,10 +220,10 @@ async function updateCar(req, res) {
                 });
             }
             detailCar.name = name,
-            detailCar.tahun = tahun,
-            detailCar.noPlat = noPlat,
-            detailCar.harga = harga,
-            detailCar.fotoMobil = uploadedImage.url
+                detailCar.tahun = tahun,
+                detailCar.noPlat = noPlat,
+                detailCar.harga = harga,
+                detailCar.fotoMobil = uploadedImage.url
             detailCar.updatedBy = 3
 
             await detailCar.save();
@@ -310,14 +310,26 @@ async function deleteCar(req, res) {
             });
         }
 
-        await car.destroy();
+        const dateNow = Date.now();
+        const dateParse = new Date(dateNow);
+        car.deletedBy = 3,
+        car.deletedAt = dateNow
+
+        await car.save({ silent: true });
+
         res.status(200).json({
             status: "Success",
             message: "Success delete car",
             isSuccess: true,
-            data: null,
-          });
-    } 
+            data: {
+                car: {
+                    id: car.id,
+                    deletedBy: 3,
+                    deletedAt: dateParse.toString()
+                }
+            },
+        });
+    }
     catch (error) {
         if (error.name === "SequelizeValidationError") {
             const errorMessage = error.errors.map((err) => err.message);

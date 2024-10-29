@@ -1,8 +1,21 @@
 const bcrypt = require('bcryptjs');
 const { where } = require('sequelize');
 const validator = require("validator");
+const jwt = require("jsonwebtoken")
 
 const { Users } = require("../../../models");
+
+const authorizedOnly = async (req, res, next) => {
+    if (!req.session.isAuthenticated) {
+        return res.status(400).json({
+            status: "Failed",
+            message: 'You not authencticated',
+            isSuccess: false,
+            data: null,
+        });
+    }
+    next();
+}
 
 const register = async (req, res) => {
     try {
@@ -25,6 +38,10 @@ const register = async (req, res) => {
             lastName,
             phone,
         })
+
+        // req.session.isAuthenticated = true;
+        // req.session.user = { email, firstName, lastName, phone };
+
         res.status(201).json({
             status: "Success",
             message: "Register user successfully",
@@ -64,11 +81,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const userDetail = await Users.findOne({
-            where: { email }
-        });
-
-        if (!validator.isEmail(email)) {
+        const emailLowerCase = email.toLowerCase()
+ 
+        if (!validator.isEmail(emailLowerCase)) {
             return res.status(400).json({
                 status: "Failed",
                 message: 'Email is not valid',
@@ -77,7 +92,7 @@ const login = async (req, res) => {
             });
         }
 
-        if (!validator.isLength(password, {min: 8})) {
+        if (!validator.isLength(password, { min: 8 })) {
             return res.status(400).json({
                 status: "Failed",
                 message: 'Password at least 8 char',
@@ -85,7 +100,7 @@ const login = async (req, res) => {
                 data: null,
             });
         }
-        else if (!validator.isLength(password, {max: 100})) {
+        else if (!validator.isLength(password, { max: 100 })) {
             return res.status(400).json({
                 status: "Failed",
                 message: 'Password max 100 char',
@@ -93,6 +108,10 @@ const login = async (req, res) => {
                 data: null,
             });
         }
+
+        const userDetail = await Users.findOne({
+            where: { email: emailLowerCase }
+        });
 
         if (!userDetail) {
             return res.status(404).json({
@@ -102,11 +121,21 @@ const login = async (req, res) => {
                 data: null,
             });
         }
-
         const hashedPassword = userDetail.password
         const isCorrectPass = await bcrypt.compare(password, hashedPassword)
 
         if (isCorrectPass) {
+            console.log([userDetail.createdAt, userDetail.createdAt, userDetail.password])
+
+            const token = createToken({
+                id: userDetail.id,
+                email: email,
+                createdAt: userDetail.createdAt,
+                updatedAt: userDetail.updatedAt
+            })
+
+            console.log(token)
+
             res.status(201).json({
                 status: "Success",
                 message: "Login user successfully",
@@ -115,7 +144,8 @@ const login = async (req, res) => {
                     email: email,
                     firstName: userDetail.firstName,
                     lastName: userDetail.lastName,
-                    phone: userDetail.phone
+                    phone: userDetail.phone,
+                    token: token
                 },
             });
         }
@@ -155,7 +185,15 @@ const login = async (req, res) => {
     }
 }
 
+const logout = async (req, res) => {
+    req.session.destroy()
+    res.redirect("/login")
+}
+
+
 module.exports = {
     register,
-    login
+    login,
+    logout,
+    authorizedOnly
 }

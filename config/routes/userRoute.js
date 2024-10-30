@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
-const { UserController } = require("../controllers/api/v1");
-const { uploader, authenticated, authorize } = require("../middlewares");
+const { UserController } = require("../../app/controllers/api/v1");
+const { uploader, authenticated, authorize } = require("../../app/middlewares");
 
 router.get("/", authenticated, authorize('superadmin'), UserController.getAllUsers);
 router.get("/:id", authenticated, authorize('superadmin'), UserController.getUserbyId);

@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
-const { CarController } = require("../controllers/api/v1");
-const { uploader, authenticated, authorize } = require("../middlewares");
+const { CarController } = require("../../app/controllers/api/v1");
+const { uploader, authenticated, authorize } = require("../../app/middlewares");
 
 router.get("/", authenticated, CarController.getAllCars);
 router.get("/:id", authenticated, CarController.getCarbyId);

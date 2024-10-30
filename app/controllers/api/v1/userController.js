@@ -223,7 +223,7 @@ async function createUser(req, res) {
         } else {
             return res.status(500).json({
                 status: "Failed",
-                message: "An unexpected error occurred",
+                message: error.message,
                 isSuccess: false,
                 data: null,
             });

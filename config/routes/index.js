@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const { SystemController } = require("../controllers/api/v1");
+const { SystemController } = require("../../app/controllers/api/v1");
 
 const Auth = require("./authRoute");
 const User = require("./userRoute");

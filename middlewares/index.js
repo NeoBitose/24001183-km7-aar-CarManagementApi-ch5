@@ -1,9 +1,9 @@
-const uploader = require("./uploaderMiddleware");
-const authenticated = require("./authenticatedMiddleware");
-const roles = require("./roleMiddleware")
+const uploader = require("./uploader");
+const authenticated = require("./authenticate");
+const authorize = require("./authorize")
 
 module.exports = {
     uploader,
     authenticated,
-    roles
+    authorize
 }

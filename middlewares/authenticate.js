@@ -7,7 +7,7 @@ const authenticateToken = (req, res, next) => {
     if (!token) {
         return res.status(401).json({
             status: "Failed",
-            message: "Not authorized",
+            message: "You're not authorized",
             isSuccess: false,
             data: null,
         });

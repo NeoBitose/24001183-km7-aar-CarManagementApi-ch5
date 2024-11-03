@@ -286,7 +286,7 @@
                       "firstName": "Alif",
                       "lastName": "Ramadhan",
                       "phone": "1234567890",
-                      "token": "token...",
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZW1haWwiOiJhbGlmcm1kbkBleGFtcGxlLmNvbSIsInJvbGUiOiJzdXBlcmFkbWluIiwiY3JlYXRlZEF0IjoiMjAyNC0xMC0yOFQxMjoyNDoxOC45MjBaIiwidXBkYXRlZEF0IjoiMjAyNC0xMC0yOFQxMjoyNDoxOC45MjBaIiwiaWF0IjoxNzMwNjA1NzAxLCJleHAiOjE3MzA2MDkzMDF9.sXNaUybcskCOFTey0Cw3q75TfrXjcQL_bgm903GhfIg",
                       "role": "superadmin"
                     }
                   }
@@ -2269,6 +2269,163 @@
                   "schema": {
                     "type": "string",
                     "example": "Sun, 03 Nov 2024 04:16:55 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "status": "Failed",
+                    "message": "Invalid Token",
+                    "isSuccess": false,
+                    "data": null
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/current/user": {
+        "get": {
+          "tags": [
+            "Users"
+          ],
+          "summary": "getCurrentUser",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {
+                "X-Powered-By": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Express"
+                  }
+                },
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "263"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"107-hlu7w2nR0Zyc7n7JPbscIF70iIg\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Sun, 03 Nov 2024 07:13:34 GMT"
+                  }
+                },
+                "Connection": {
+                  "schema": {
+                    "type": "string",
+                    "example": "keep-alive"
+                  }
+                },
+                "Keep-Alive": {
+                  "schema": {
+                    "type": "string",
+                    "example": "timeout=5"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  },
+                  "example": {
+                    "status": "Success",
+                    "message": "Success get users data",
+                    "isSuccess": true,
+                    "data": {
+                      "current": {
+                        "id": 4,
+                        "email": "alifrmdn@example.com",
+                        "role": "superadmin",
+                        "createdAt": "2024-10-28T12:24:18.920Z",
+                        "updatedAt": "2024-10-28T12:24:18.920Z",
+                        "iat": "11/3/2024, 2:22:13 PM,",
+                        "exp": "11/3/2024, 3:22:13 PM"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "headers": {
+                "X-Powered-By": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Express"
+                  }
+                },
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string",
+                    "example": "*"
+                  }
+                },
+                "Content-Type": {
+                  "schema": {
+                    "type": "string",
+                    "example": "application/json; charset=utf-8"
+                  }
+                },
+                "Content-Length": {
+                  "schema": {
+                    "type": "integer",
+                    "example": "75"
+                  }
+                },
+                "ETag": {
+                  "schema": {
+                    "type": "string",
+                    "example": "W/\"4b-ldYhiEvhSf8EwE2Gx1HgdWWHJaU\""
+                  }
+                },
+                "Date": {
+                  "schema": {
+                    "type": "string",
+                    "example": "Sun, 03 Nov 2024 07:43:29 GMT"
                   }
                 },
                 "Connection": {

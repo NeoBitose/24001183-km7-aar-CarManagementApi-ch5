@@ -233,8 +233,72 @@ async function createUser(req, res) {
     }
 }
 
+async function currentUser(req, res) {
+    try {
+        const current = req.user;
+        const id  = current.id
+        const email = current.email
+        const role = current.role
+        const iat = current.iat
+        const exp = current.exp
+
+        const iatDate = new Date(iat * 1000).toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+    const expDate = new Date(exp * 1000).toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+
+        console.log(current, iat, exp)
+        if (!current || Object.keys(current).length === 0) {
+            return res.status(404).json({
+                status: "Failed",
+                message: "No data users authenticated found",
+                isSuccess: false,
+                data: null,
+            });
+        }
+        res.status(200).json({
+            status: "Success",
+            message: "Success get users data",
+            isSuccess: true,
+            data: {
+                current: {
+                    id,
+                    email,
+                    role,
+                    iat: iatDate,
+                    exp: expDate
+                },
+            },
+        });
+    }
+    catch (error) {
+        if (error.name === "SequelizeValidationError") {
+            const errorMessage = error.errors.map((err) => err.message);
+            return res.status(400).json({
+                status: "Failed",
+                message: errorMessage[0],
+                isSuccess: false,
+                data: null,
+            });
+        } else if (error.name === "SequelizeDatabaseError") {
+            return res.status(400).json({
+                status: "Failed",
+                message: error.message || "Database error",
+                isSuccess: false,
+                data: null,
+            });
+        } else {
+            return res.status(500).json({
+                status: "Failed",
+                message: "An unexpected error occurred",
+                isSuccess: false,
+                data: null,
+            });
+        }
+    }
+}
+
 module.exports = {
     getAllUsers,
     getUserbyId,
-    createUser
+    createUser,
+    currentUser
 }

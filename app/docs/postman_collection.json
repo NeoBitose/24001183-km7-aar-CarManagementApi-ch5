@@ -1994,6 +1994,150 @@
 							"body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Invalid Token\",\n    \"isSuccess\": false,\n    \"data\": null\n}"
 						}
 					]
+				},
+				{
+					"name": "getCurrentUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api-v1}}/users/current/user",
+							"host": [
+								"{{api-v1}}"
+							],
+							"path": [
+								"users",
+								"current",
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 Ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api-v1}}/users/current/user",
+									"host": [
+										"{{api-v1}}"
+									],
+									"path": [
+										"users",
+										"current",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "263"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"107-hlu7w2nR0Zyc7n7JPbscIF70iIg\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 07:13:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"Success\",\n    \"message\": \"Success get users data\",\n    \"isSuccess\": true,\n    \"data\": {\n        \"current\": {\n            \"id\": 4,\n            \"email\": \"alifrmdn@example.com\",\n            \"role\": \"superadmin\",\n            \"createdAt\": \"2024-10-28T12:24:18.920Z\",\n            \"updatedAt\": \"2024-10-28T12:24:18.920Z\",\n            \"iat\": 1730614850,\n            \"exp\": 1730618450\n        }\n    }\n}"
+						},
+						{
+							"name": "401 Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api-v1}}/users/current/user",
+									"host": [
+										"{{api-v1}}"
+									],
+									"path": [
+										"users",
+										"current",
+										"user"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "75"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4b-ldYhiEvhSf8EwE2Gx1HgdWWHJaU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Nov 2024 07:43:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"Failed\",\n    \"message\": \"Invalid Token\",\n    \"isSuccess\": false,\n    \"data\": null\n}"
+						}
+					]
 				}
 			]
 		},

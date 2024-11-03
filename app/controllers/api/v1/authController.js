@@ -152,7 +152,7 @@ const login = async (req, res) => {
                 updatedAt: userDetail.updatedAt
             })
 
-            res.status(201).json({
+            res.status(200).json({
                 status: "Success",
                 message: "Login user successfully",
                 isSuccess: true,

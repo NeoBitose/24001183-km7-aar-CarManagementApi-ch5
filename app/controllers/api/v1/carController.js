@@ -15,13 +15,14 @@ async function getAllCars(req, res) {
                     as: 'userUpdate',
                     attributes: ['id', 'firstName', 'lastName', 'role'],
                 },
-                {
+                { 
                     model: Users,
                     as: 'userDelete',
                     attributes: ['id', 'firstName', 'lastName', 'role'],
                 }
             ],
-            attributes: ['id', 'name', 'tahun', 'noPlat', 'harga', 'fotoMobil', 'createdAt', 'updatedAt', 'deletedAt']
+            attributes: ['id', 'name', 'tahun', 'noPlat', 'harga', 'fotoMobil', 'createdAt', 'updatedAt', 'deletedAt'],
+            order: ['id']
         });
 
         if (cars.length === 0) {

@@ -8,7 +8,9 @@ const imagekit = require("../../../lib/imagekit");
 
 async function getAllUsers(req, res) {
     try {
-        const users = await Users.findAll();
+        const users = await Users.findAll({
+            order: ['id']
+        });
 
         if (users.length === 0) {
             return res.status(404).json({

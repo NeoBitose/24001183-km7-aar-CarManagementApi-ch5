@@ -23,6 +23,7 @@ function onLost(req, res, next) {
         isSuccess: false,
         data: null,
     });
+    next
 }
 
 function onError(err, req, res, next) {
@@ -32,6 +33,7 @@ function onError(err, req, res, next) {
         isSuccess: false,
         data: null,
     });
+    next
 }
 
 module.exports = {
